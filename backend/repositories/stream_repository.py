@@ -19,6 +19,10 @@ class StreamRepository:
     def get_stream_by_id(self, user_id: int):
         return self.db.query(RestreamSession).filter(RestreamSession.id == user_id).first()
 
+
+    def get_stream_by_status(self, status: str):
+        return self.db.query(RestreamSession).filter(RestreamSession.status == status).all()
+
     def update_stream(self, stream_id: int, stream_data: dict):
         stream = self.get_stream_by_id(stream_id)
         if stream:

@@ -1,6 +1,6 @@
 from Database.config import Base
 from sqlalchemy.orm import Session
-from sqlalchemy import Column ,Integer, String, TIMESTAMP
+from sqlalchemy import Column ,Integer, String
 
 
 
@@ -11,9 +11,8 @@ class User(Base):
     fullname = Column(String, unique=True, index=True, nullable=False)
     username = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
-    avatar = Column(String, nullable=True)
     role = Column(String, nullable=True)
-    created_at = Column(TIMESTAMP, server_default="now()")
+   
 
     def check_password(self, password: str) -> bool:
             return password == self.password
@@ -33,8 +32,8 @@ class RestreamSession(Base):
     end_time = Column(String, nullable=False)
     channel_id = Column(Integer, nullable=False)
     url = Column(String, nullable=False)
-    status = Column(String, default="upcoming", nullable=False)
-    created_at = Column(TIMESTAMP, server_default="now()")
+    status = Column(String, nullable=False)
+    
 
 
     

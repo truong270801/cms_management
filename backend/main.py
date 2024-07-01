@@ -5,6 +5,7 @@ from Controller.router_user import user
 from Controller.router_stream import stream 
 from security.jwt import create_jwt_token
 from Database.config import get_db, Base, engine
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session  
 from Model.model import User
 import os
@@ -15,10 +16,22 @@ load_dotenv()
 TIME = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")) 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 #Đăng nhập lấy mã token
-@app.post("/token")
+@app.post("/login")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = User.authenticate_user(db, form_data.username, form_data.password)
     if not user:

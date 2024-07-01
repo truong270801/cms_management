@@ -6,7 +6,7 @@ from repositories.stream_repository import StreamRepository
 # crud users
 def create_user(db: Session, request: RequestUser):
     repository = UserRepository(db)
-    return repository.create_user(request.parameter.dict())
+    return repository.create_user(request.user.dict())
 
 def get_users(db: Session):
     repository = UserRepository(db)
@@ -18,7 +18,7 @@ def get_user_by_id(db: Session, id: int):
 
 def update_user(db: Session, id: int, request: RequestUser):
     repository = UserRepository(db)
-    return repository.update_user(id, request.parameter.dict())
+    return repository.update_user(id, request.user.dict())
 
 def delete_user(db: Session, id: int):
     repository = UserRepository(db)
@@ -28,7 +28,7 @@ def delete_user(db: Session, id: int):
 
 def create_stream(db: Session, request: requestStream):
     repository_stream = StreamRepository(db)
-    return repository_stream.create_stream(request.parameter.dict())
+    return repository_stream.create_stream(request.stream.dict())
 
 def get_stream(db: Session):
     repository_stream = StreamRepository(db)
@@ -40,8 +40,12 @@ def get_stream_by_id(db: Session, id: int):
 
 def update_stream(db: Session, id: int, request: requestStream):
     repository_stream = StreamRepository(db)
-    return repository_stream.update_stream(id, request.parameter.dict())
+    return repository_stream.update_stream(id, request.stream.dict())
 
 def delete_stream(db: Session, id: int):
     repository_stream = StreamRepository(db)
     return repository_stream.delete_stream(id)
+
+def get_stream_by_status(db: Session, status: str):
+    repository_stream = StreamRepository(db)
+    return repository_stream.get_stream_by_status(status)
