@@ -32,7 +32,7 @@ class RestreamSession(Base):
     end_time = Column(String, nullable=False)
     channel_id = Column(Integer, nullable=False)
     url = Column(String, nullable=False)
-    status = Column(String, nullable=False)
+   
     
 
 

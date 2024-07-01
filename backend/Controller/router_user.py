@@ -9,8 +9,8 @@ user = APIRouter()
 
 
 @user.post('/create')
-async def create_user(request: RequestUser, db: Session = Depends(get_db), token_payload: dict = Depends(check_jwt_token)):
-    await check_admin(token_payload)
+async def create_user(request: RequestUser, db: Session = Depends(get_db)):
+    #await check_admin(token_payload)
     created_user = crud.create_user(db, request)
     return ResponseUser(user=created_user).dict(exclude_none=True)
 

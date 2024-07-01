@@ -25,7 +25,7 @@ class streamSchema(BaseModel):
     end_time:Optional[str] = None
     url:Optional[str] = None
     channel_id:Optional[int] = None
-    status:Optional[str] = None
+   
    
     
     class Config:

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DeleteStream from "./DeleteStream";
-import UpdateStream from "./UpdateStream";
 
 const TableStream = () => {
   const [data, setData] = useState([]);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [selectedStream, setSelectedStream] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("All");
 
   useEffect(() => {
@@ -20,30 +17,39 @@ const TableStream = () => {
     };
 
     fetchData();
+
+    const intervalId = setInterval(fetchData, 10000); 
+
+    return () => clearInterval(intervalId); 
   }, []);
 
-  const handleStreamUpdated = (updatedStream) => {
-    setData(
-      data.map((stream) =>
-        stream.id === updatedStream.id ? updatedStream : stream
-      )
-    );
+  const getStatus = (start_time, end_time) => {
+    const currentTime = new Date().toISOString();
+    const localStartTime = new Date(start_time).toLocaleString();
+    const localEndTime = new Date(end_time).toLocaleString();
+    const localCurrentTime = new Date(currentTime).toLocaleString();
+
+    if (localStartTime <= localCurrentTime && localEndTime >= localCurrentTime) {
+      return "active";
+    } else if (localStartTime > localCurrentTime) {
+      return "upcoming";
+    } else if (localEndTime < localCurrentTime) {
+      return "finished";
+    }
+    return "unknown";
   };
 
   const handleStreamDeleted = (streamId) => {
     setData(data.filter((stream) => stream.id !== streamId));
   };
 
-  const handleEditClick = (stream) => {
-    setSelectedStream(stream);
-    setShowUpdateModal(true);
-  };
-
   const renderTableRows = () => {
     let filteredData = data;
 
     if (selectedStatus !== "All") {
-      filteredData = data.filter((stream) => stream.status === selectedStatus);
+      filteredData = data.filter(
+        (stream) => getStatus(stream.start_time, stream.end_time) === selectedStatus
+      );
     }
 
     return filteredData.map((stream) => (
@@ -53,18 +59,14 @@ const TableStream = () => {
         <td className="text-left py-3 px-4">{stream.start_time}</td>
         <td className="text-left py-3 px-4">{stream.end_time}</td>
         <td className="text-left py-3 px-4">{stream.channel_id}</td>
-        <td className="text-left py-3 px-4">{stream.status}</td>
+        <td className="text-left py-3 px-4">{getStatus(stream.start_time, stream.end_time)}</td>
         <td className="text-left py-3 px-4 flex flex-row">
-          <span
-            className="material-icons text-gray-600 cursor-pointer"
-            onClick={() => handleEditClick(stream)}
-          >
-            edit
-          </span>
-          <DeleteStream
-            streamId={stream.id}
-            onStreamDeleted={handleStreamDeleted}
-          />
+          {["active", "upcoming"].includes(getStatus(stream.start_time, stream.end_time)) && (
+            <DeleteStream
+              streamId={stream.id}
+              onStreamDeleted={handleStreamDeleted}
+            />
+          )}
         </td>
       </tr>
     ));
@@ -73,7 +75,7 @@ const TableStream = () => {
   return (
     <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
       <div className="flex justify-between items-center">
-        <div> </div>
+        <div></div>
         <h1 className="text-2xl font-bold">LIST STREAM</h1>
         <div>
           <select
@@ -93,42 +95,18 @@ const TableStream = () => {
         <table className="min-w-full bg-white mt-8">
           <thead className="bg-gray-800 text-white">
             <tr>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                ID
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                URL
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                START TIME
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                END TIME
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                CHANNEL ID
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                STATUS
-              </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                ACTIONS
-              </th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">ID</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">URL</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">START TIME</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">END TIME</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">CHANNEL ID</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">STATUS</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">ACTIONS</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">{renderTableRows()}</tbody>
         </table>
       </div>
-      {showUpdateModal && selectedStream && (
-        <UpdateStream
-          stream={selectedStream}
-          onStreamUpdate={(updatedStream) => {
-            handleStreamUpdated(updatedStream);
-            setShowUpdateModal(false);
-          }}
-          onClose={() => setShowUpdateModal(false)}
-        />
-      )}
     </div>
   );
 };

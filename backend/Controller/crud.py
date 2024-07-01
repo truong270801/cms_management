@@ -38,14 +38,9 @@ def get_stream_by_id(db: Session, id: int):
     repository_stream = StreamRepository(db)
     return repository_stream.get_stream_by_id(id)
 
-def update_stream(db: Session, id: int, request: requestStream):
-    repository_stream = StreamRepository(db)
-    return repository_stream.update_stream(id, request.stream.dict())
+
 
 def delete_stream(db: Session, id: int):
     repository_stream = StreamRepository(db)
     return repository_stream.delete_stream(id)
 
-def get_stream_by_status(db: Session, status: str):
-    repository_stream = StreamRepository(db)
-    return repository_stream.get_stream_by_status(status)
