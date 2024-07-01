@@ -18,22 +18,21 @@ const TableStream = () => {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 10000); 
+    const intervalId = setInterval(fetchData, 10000);
 
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const getStatus = (start_time, end_time) => {
-    const currentTime = new Date().toISOString();
-    const localStartTime = new Date(start_time).toLocaleString();
-    const localEndTime = new Date(end_time).toLocaleString();
-    const localCurrentTime = new Date(currentTime).toLocaleString();
+    const currentTime = new Date();
+    const startTime = new Date(start_time);
+    const endTime = new Date(end_time);
 
-    if (localStartTime <= localCurrentTime && localEndTime >= localCurrentTime) {
+    if (startTime <= currentTime && endTime >= currentTime) {
       return "active";
-    } else if (localStartTime > localCurrentTime) {
+    } else if (startTime > currentTime) {
       return "upcoming";
-    } else if (localEndTime < localCurrentTime) {
+    } else if (endTime < currentTime) {
       return "finished";
     }
     return "unknown";
