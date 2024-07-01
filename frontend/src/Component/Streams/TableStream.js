@@ -9,7 +9,14 @@ const TableStream = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/streams");
+        const token = localStorage.getItem('token');
+        const response = await axios.get("http://127.0.0.1:8000/streams",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setData(response.data.stream);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);

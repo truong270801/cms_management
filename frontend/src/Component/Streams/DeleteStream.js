@@ -16,13 +16,13 @@ const DeleteStream = ({ streamId, onStreamDeleted }) => {
 
     const handleConfirm = async () => {
         try {
-            //const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token'); 
              await axios.delete(`http://127.0.0.1:8000/streams/${streamId}`, 
-                //{
-            //     headers: {
-            //         Authorization: `Bearer ${token}`
-            //     }
-            // }
+                {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                }
+             }
         );
             onStreamDeleted(streamId);
         } catch (error) {

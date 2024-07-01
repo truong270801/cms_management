@@ -1,16 +1,16 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const handleLogin = (username) => {
-    setUser(username);
+  const handleLogin = (userData) => {
+    setUser(userData);
   };
 
   const handleLogout = () => {
-    setUser(null);
+    setUser(null); 
   };
 
   return (
@@ -18,6 +18,10 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
+};
+
+export const useUser = () => {
+  return useContext(UserContext);
 };
 
 export default UserContext;

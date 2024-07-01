@@ -20,7 +20,8 @@ const DeleteUser = ({ userId, onUserDeleted }) => {
     const handleConfirm = async () => {
         try {
             const token = localStorage.getItem('token'); 
-            await axios.delete(`http://127.0.0.1:8000/users/${userId}`, {
+            await axios.delete(`http://127.0.0.1:8000/users/${userId}`, 
+                {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

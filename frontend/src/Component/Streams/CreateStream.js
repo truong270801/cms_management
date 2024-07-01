@@ -27,9 +27,14 @@ const CreateStream = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     
+      const token = localStorage.getItem('token');
       await axios.post("http://127.0.0.1:8000/streams/create", {
         stream,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       setShowPopup(true);
     } catch (error) {

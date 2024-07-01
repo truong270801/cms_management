@@ -58,7 +58,7 @@ const UpdateUser = ({ user, onUserUpdate, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
       <div className="bg-white w-[80%] max-w-lg mx-auto rounded-lg p-8 z-50">
-        <h1 className="flex justify-center text-24">CẬP NHẬT NGƯỜI DÙNG</h1>
+        <h1 className="flex justify-center text-24">UPDATE USER</h1>
         <form onSubmit={handleSubmit}>
           <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
