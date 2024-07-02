@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
-from Database.config import get_db
-from Database.schemas import RequestUser, ResponseUser
-from Controller import crud
-from security.middleware_check import check_jwt_token,check_admin
+from app.Database.config import get_db
+from app.Database.schemas import RequestUser, ResponseUser
+from app.Controller import crud
+from app.security.middleware_check import check_jwt_token,check_admin
 
 user = APIRouter()
 

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from Model.model import RestreamSession
+from app.Model.model import RestreamSession
 
 
 class StreamRepository:

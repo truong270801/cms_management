@@ -1,4 +1,4 @@
-from Database.config import Base
+from app.Database.config import Base
 from sqlalchemy.orm import Session
 from sqlalchemy import Column ,Integer, String
 
