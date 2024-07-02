@@ -1,5 +1,5 @@
 # Sử dụng một hình ảnh cơ bản của Node.js
-FROM node:20.13.1
+FROM node:22.3.0
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
