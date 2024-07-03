@@ -1,37 +1,37 @@
-version: '3.9'
+version: '4'
 
 services:
   frontend:
     build:
       context: ./frontend
-    image: frontend
+    image: cms_management/frontend:v1.0.0
     container_name: frontend_container
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - backend
 
   backend:
     build:
       context: ./backend
-    image: backend
+    image: cms_management/backend:v1.0.0
     container_name: backend_container
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     depends_on:
       - db
     environment:
-      - DATABASE_URL = postgresql://postgres:123456@db:5432/cms_management
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${DB_PORT}/${POSTGRES_DB}
 
   db:
-    image: postgres:16
+    image: postgres:latest
     container_name: database_container
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: cms_management
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
 
 networks:
   default:
