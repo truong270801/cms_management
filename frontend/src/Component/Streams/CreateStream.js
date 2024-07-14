@@ -4,12 +4,13 @@ import Popup from "../Popup/Popup";
 
 const CreateStream = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [stream, setStream] = useState({
     start_time: "",
     end_time: "",
     url: "",
     channel_id: "",
-   
   });
 
   const handleChange = (e) => {
@@ -18,27 +19,51 @@ const CreateStream = () => {
       ...prevStream,
       [name]: value,
     }));
+    setError("");
   };
 
   const handleClosePopup = () => {
     setShowPopup(false);
+    setError(false);
   };
+
+  const validateTimes = () => {
+    const startTime = new Date(stream.start_time);
+    const endTime = new Date(stream.end_time);
+
+    if (endTime <= startTime) {
+      setError("End time must be after start time.");
+      return false;
+    }
+    return true;
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateTimes()) {
+      return;
+    }
+    setLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      await axios.post("http://127.0.0.1:8000/streams/create", {
-        stream,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://127.0.0.1:8000/streams/create",
+        {
+          stream,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setShowPopup(true);
     } catch (error) {
       console.error(error);
+      setError("An error occurred while creating the stream.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,16 +124,27 @@ const CreateStream = () => {
                   />
                 </div>
 
+              
+                {error && (
+                  <Popup
+                    message={error}
+                    onClose={handleClosePopup}
+                  />
+                )}
                 <div className="md:col-span-5 text-right">
                   <div className="inline-flex items-end">
                     <button
                       type="submit"
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      disabled={loading}
                     >
-                      Submit
+                      {loading ? "Submitting..." : "Submit"}
                     </button>
                     {showPopup && (
-                      <Popup message="Tạo phiên stream thành công!" onClose={handleClosePopup} />
+                      <Popup
+                        message="Tạo phiên stream thành công!"
+                        onClose={handleClosePopup}
+                      />
                     )}
                   </div>
                 </div>
