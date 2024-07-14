@@ -43,9 +43,15 @@ const Login =  () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-yellow-300">
+    <div className="flex items-center flex-col justify-center min-h-screen bg-[#E9ECEF]">
+      <div className="bg-[#055EA8] w-[100px] h-[100px] ">
+      <img className="p-4"  alt="Học trực tuyến - Hệ thống giáo dục HOCMAI" src="https://hocmai.vn/assets/front/images/logo.png"></img>
+      </div>
+     
+      <h1 className="text-[24px] my-4">HOCMAI - REPORT</h1>
       <div className="w-[400px] bg-white  p-8 rounded-[10px]">
-        <h2 className="text-[32px] font-bold mb-6 text-center">Login</h2>
+        <p className="text-[16px]  mb-6 text-center">
+          Vui lòng đăng nhập tài khoản của bạn</p>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <input
@@ -72,6 +78,14 @@ const Login =  () => {
           >
             LOGIN
           </button>
+          <p className="text-center my-4">- Hoặc đăng nhập với - </p>
+          <button
+            type="submit"
+            className="w-full bg-[#DC3545] text-white py-2 rounded-md hover:bg-[#DD0029]"
+          >
+            <i class="fab fa-google-plus-g mr-2"></i>
+             Đăng nhập bằng email HOCMAI 
+          </button> 
         </form>
       </div>
     </div>
