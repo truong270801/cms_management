@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import SuccessPopup from '../Popup/SuccessPopup';
+import Popup from '../Popup/Popup';
 
 
 const CreateUser = () => {
@@ -113,7 +113,7 @@ const CreateUser = () => {
                       >
                         Submit
                       </button>
-                      {showPopup && <SuccessPopup message="User creation successful!" onClose={handleClosePopup} />}
+                      {showPopup && <Popup message="User creation successful!" onClose={handleClosePopup} />}
                     </div>
                   </div>
                 </div>

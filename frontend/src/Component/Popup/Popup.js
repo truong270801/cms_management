@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const SuccessPopup = ({ message, onClose }) => {
+const Popup = ({ message, onClose }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center">
             <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
@@ -19,4 +19,4 @@ const SuccessPopup = ({ message, onClose }) => {
     );
 }
 
-export default SuccessPopup;
+export default Popup;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import SuccessPopup from "../Popup/SuccessPopup";
+import Popup from "../Popup/Popup";
 
 const CreateStream = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -108,7 +108,7 @@ const CreateStream = () => {
                       Submit
                     </button>
                     {showPopup && (
-                      <SuccessPopup message="Tạo phiên stream thành công!" onClose={handleClosePopup} />
+                      <Popup message="Tạo phiên stream thành công!" onClose={handleClosePopup} />
                     )}
                   </div>
                 </div>
