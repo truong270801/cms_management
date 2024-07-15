@@ -5,9 +5,10 @@ import TbUser from "./Pages/TbUser";
 import TbStream from "./Pages/TbStream";
 import AddUser from "./Pages/AddUser";
 import AddStream from "./Pages/AddStream";
+import MonitorStream from "./Pages/MonitorStream";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./Context/UserContext";
-import PrivateRoute from "./Component/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/tbstream" element={<PrivateRoute> <TbStream /> </PrivateRoute>}/>
           <Route exact path="/adduser" element={<PrivateRoute> <AddUser /> </PrivateRoute>}/>
           <Route exact path="/addstream" element={<PrivateRoute> <AddStream /> </PrivateRoute>}/>
+          <Route exact path="/monitorstream" element={<PrivateRoute> <MonitorStream /> </PrivateRoute>}/>
         </Routes>
       </UserProvider>
     </Router>

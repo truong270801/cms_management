@@ -19,6 +19,9 @@ function NavbarLeft() {
   const handleAddStream = () => {
     navigate("/addstream");
   };
+  const handleMonitorStream = () => {
+    navigate("/monitorstream");
+  };
   //const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDropdownOpenUser, setIsDropdownOpenUser] = useState(false);
   const [isDropdownOpenStream, setIsDropdownOpenStream] = useState(false);
@@ -32,7 +35,7 @@ function NavbarLeft() {
 
   
   return (
-    <div className="absolute top-12 left-0 w-48 h-[calc(100%-3rem)] bg-gray-800 text-white font-bold p-4">
+    <div className="fixed top-12 left-0 w-48 h-full bg-gray-800 text-white font-bold p-4">
      
       <ul>
         <li
@@ -64,6 +67,10 @@ function NavbarLeft() {
           <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
           onClick={handleAddStream}>
             Create stream
+          </h1>
+          <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
+          onClick={handleMonitorStream}>
+            Monitor stream
           </h1>
         </div>
         <li

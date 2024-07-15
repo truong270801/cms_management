@@ -48,7 +48,7 @@ const Login =  () => {
       <img className="p-4"  alt="Học trực tuyến - Hệ thống giáo dục HOCMAI" src="https://hocmai.vn/assets/front/images/logo.png"></img>
       </div>
      
-      <h1 className="text-[24px] my-4">HOCMAI - REPORT</h1>
+      <h1 className="text-[24px] my-4">HOCMAI - RESTREAM</h1>
       <div className="w-[400px] bg-white  p-8 rounded-[10px]">
         <p className="text-[16px]  mb-6 text-center">
           Vui lòng đăng nhập tài khoản của bạn</p>
