@@ -58,14 +58,14 @@ const UpdateUser = ({ user, onUserUpdate, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
       <div className="bg-white w-[80%] max-w-lg mx-auto rounded-lg p-8 z-50">
-        <h1 className="flex justify-center text-24">UPDATE USER</h1>
+        <h1 className="flex justify-center text-24">CẬP NHẬT NGƯỜI DÙNG</h1>
         <form onSubmit={handleSubmit}>
           <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                   <div className="md:col-span-5">
-                    <label>Full Name</label>
+                    <label>Tên đầy đủ</label>
                     <input
                       type="text"
                       name="fullname"
@@ -75,7 +75,7 @@ const UpdateUser = ({ user, onUserUpdate, onClose }) => {
                     />
                   </div>
                   <div className="md:col-span-5">
-                    <label>User Name</label>
+                    <label>UserName</label>
                     <input
                       type="text"
                       name="username"
@@ -85,7 +85,7 @@ const UpdateUser = ({ user, onUserUpdate, onClose }) => {
                     />
                   </div>
                   <div className="md:col-span-5">
-                    <label>Password</label>
+                    <label>Mật khẩu</label>
                     <input
                       type="password"
                       name="password"
@@ -96,16 +96,16 @@ const UpdateUser = ({ user, onUserUpdate, onClose }) => {
                   </div>
                  
                   <div className="w-[150px] sm:col-span-5">
-                    <label>Role</label>
+                    <label>Quyền</label>
                     <select
                       name="role"
                       value={userData.role}
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     >
-                      <option value="">Chọn vai trò</option>
-                      <option value="admin">Admin</option>
-                      <option value="member">Member</option>
+                      <option value="">Lựa chọn</option>
+                      <option value="admin">Quản lý</option>
+                      <option value="member">Thành viên</option>
                     </select>
                   </div>
                   <div className="md:col-span-5 text-right">

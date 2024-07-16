@@ -60,7 +60,7 @@ const CreateUser = () => {
               <div className="lg:col-span-2">
                 <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                   <div className="md:col-span-5">
-                    <label>Full Name</label>
+                    <label>Tên đầy đủ</label>
                     <input
                       type="text"
                       name="fullname"
@@ -82,7 +82,7 @@ const CreateUser = () => {
                   </div>
 
                   <div className="md:col-span-5">
-                    <label>Password</label>
+                    <label>Mật khẩu</label>
                     <input
                       type="text"
                       name="password"
@@ -93,16 +93,16 @@ const CreateUser = () => {
                   </div>
 
                   <div className="w-[150px] sm:col-span-5">
-                    <label>Role</label>
+                    <label>Quyền</label>
                     <select
                       name="role"
                       value={user.role}
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     >
-                      <option value="">Select a role</option>
-                      <option value="admin">Admin</option>
-                      <option value="member">Member</option>
+                      <option value="">Lựa chọn</option>
+                      <option value="admin">Quản lý</option>
+                      <option value="member">Thành viên</option>
                     </select>
                   </div>
 
@@ -116,7 +116,7 @@ const CreateUser = () => {
                       </button>
                       {showPopup && (
                         <Popup
-                          message="User creation successful!"
+                          message="Tạo người dùng thành công!"
                           onClose={handleClosePopup}
                         />
                       )}

@@ -92,10 +92,10 @@ const MonitorStream = () => {
           VideoID: {stream.id}
         </h2>
         <p className="text-sm text-gray-600 mb-1">
-          Start Time: {renderFormattedDateTime(stream.start_time)}
+          Thời gian bắt đầu: {renderFormattedDateTime(stream.start_time)}
         </p>
         <p className="text-sm text-gray-600">
-          End Time: {renderFormattedDateTime(stream.end_time)}
+          Thời gian kết thúc: {renderFormattedDateTime(stream.end_time)}
         </p>
       </div>
     ));
@@ -108,13 +108,13 @@ const MonitorStream = () => {
 
       <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
         <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold">MONITOR STREAM</h1>
+          <h1 className="text-2xl font-bold">MÀN HÌNH STREAM</h1>
         </div>
         <div className="flex justify-between space-x-4 mt-4">
           <div className="relative">
             <input
               type="text"
-              placeholder="Search VideoID"
+              placeholder="Tìm kiếm ..."
               className="px-4 py-2 w-[400px] border rounded-md"
               value={searchVideoID}
               onChange={(e) => setSearchVideoID(e.target.value)}
@@ -129,7 +129,7 @@ const MonitorStream = () => {
             )}
           </div>
           <div>
-            <label className="text-[16px]">Start Time:</label>
+            <label className="text-[16px]">Thời gian bắt đầu:</label>
             <select
               name="sortBy"
               className="px-4 py-2 border rounded-md"
@@ -140,8 +140,8 @@ const MonitorStream = () => {
                 setSortOrder(sortOrderField);
               }}
             >
-              <option value="start_time:asc">High</option>
-              <option value="start_time:desc">Low</option>
+              <option value="start_time:asc">Tăng dần</option>
+              <option value="start_time:desc">Giảm dần</option>
             </select>
           </div>
         </div>

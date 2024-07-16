@@ -48,7 +48,7 @@ const TableUser = () => {
       <NavbarTop />
       <NavbarLeft />
       <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
-        <h1 className="flex justify-center text-24">USERS LIST</h1>
+        <h1 className="flex justify-center text-24">DANH SÁCH NGƯỜI DÙNG</h1>
         <div className="overflow-x-auto overflow-y-auto">
           <table className="min-w-full bg-white mt-8">
             <thead className="bg-gray-800 text-white">
@@ -57,19 +57,19 @@ const TableUser = () => {
                   ID
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  Fullname
+                  Tên đầy đủ
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                   Username
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  Password
+                  Mật khẩu
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  Role
+                  Quyền
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  Actions
+                  Hành động
                 </th>
               </tr>
             </thead>

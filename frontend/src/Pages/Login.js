@@ -76,7 +76,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700"
           >
-            LOGIN
+           ĐĂNG NHẬP
           </button>
           <p className="text-center my-4">- Hoặc đăng nhập với - </p>
           <button

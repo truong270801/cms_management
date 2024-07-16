@@ -138,13 +138,13 @@ const TableStream = () => {
       <NavbarLeft />
       <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
         <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold ">LIST STREAM</h1>
+          <h1 className="text-2xl font-bold ">DANH SÁCH STREAM</h1>
         </div>
         <div className="flex justify-between space-x-4 mt-4">
           <div className="relative">
             <input
               type="text"
-              placeholder="Search VideoID"
+              placeholder="Tìm kiếm ..."
               className="px-4 py-2 w-[400px] border rounded-md w-100"
               value={searchVideoID}
               onChange={(e) => setSearchVideoID(e.target.value)}
@@ -165,21 +165,21 @@ const TableStream = () => {
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
-              <option value="All">All</option>
-              <option value="upcoming">Upcoming</option>
-              <option value="active">Active</option>
-              <option value="finished">Finished</option>
+              <option value="All">Tất cả</option>
+              <option value="upcoming">Sắp diễn ra</option>
+              <option value="active">Đang diễn ra</option>
+              <option value="finished">Kết thúc</option>
             </select>
-            <label className="text-[16px]">Start Time:</label>
+            <label className="text-[16px]">Giờ bắt đầu:</label>
             <select
               name="sortBy"
               className="px-4 py-2 border rounded-md"
               value={`${sortBy}:${sortOrder}`}
               onChange={handleSortChange}
             >
-              <option value="start_time:asc">High</option>
+              <option value="start_time:asc">Tăng dần</option>
 
-              <option value="start_time:desc">Low</option>
+              <option value="start_time:desc">Giảm dần</option>
             </select>
           </div>
         </div>
@@ -195,19 +195,19 @@ const TableStream = () => {
                   URL
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  START TIME
+                THỜI GIAN BẮT ĐẦU
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  END TIME
+                  THỜI GIAN KẾT THÚC
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                   CHANNEL ID
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  STATUS
+                  TRẠNG THÁI
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  ACTIONS
+                  HÀNH ĐỘNG
                 </th>
               </tr>
             </thead>

@@ -22,19 +22,19 @@ const DeleteConfirmation = ({ isOpen, onConfirm, onCancel }) => {
             contentLabel="Delete "
         >
             <div className="p-4">
-                <h2 className="text-lg  mb-4">Confirm deletion of this item?</h2>
+                <h2 className="text-lg  mb-4">XÁC NHẬN XÓA MỤC NÀY?</h2>
                 <div className="flex justify-center">
                     <button
                         className="bg-red-500 text-white px-8 py-2 rounded mr-2 hover:bg-red-700 "
                         onClick={onConfirm}
                     >
-                        DELETE
+                        XÓA
                     </button>
                     <button
                         className="bg-gray-500 text-black-700 px-8 py-2 rounded hover:bg-gray-400 "
                         onClick={onCancel}
                     >
-                        CANCEL
+                        HỦY
                     </button>
                 </div>
             </div>

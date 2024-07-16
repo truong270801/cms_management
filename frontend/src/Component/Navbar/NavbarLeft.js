@@ -43,7 +43,7 @@ function NavbarLeft() {
           onClick={handleHome}
         >
           <span className="material-icons mx-2">home</span>
-          HOME
+          TRANG CHỦ
         </li>
         <li
           className="flex items-center py-3  hover:bg-blue-600 rounded-md"
@@ -62,15 +62,15 @@ function NavbarLeft() {
             className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
             onClick={handleTbStream}
           >
-            Table stream
+            Bảng stream
           </h1>
           <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
           onClick={handleAddStream}>
-            Create stream
+            Tạo mới stream
           </h1>
           <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
           onClick={handleMonitorStream}>
-            Monitor stream
+            Màn hình stream
           </h1>
         </div>
         <li
@@ -91,13 +91,13 @@ function NavbarLeft() {
             className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
             onClick={handleTbUser}
           >
-            Table users
+            Bảng user
           </h1>
           <h1
             className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1"
             onClick={handleAddUser}
           >
-            Create user
+            Tạo mới user
           </h1>
         </div>
        
