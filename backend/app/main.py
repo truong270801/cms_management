@@ -45,6 +45,33 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 async def Home():
     return "Welcome Home"
 
+def create_admin_user(db: Session):
+    admin_username = os.getenv("ADMIN_USERNAME")
+    admin_password = os.getenv("ADMIN_PASSWORD")
+    admin_role = "admin"
+    admin_fullname = "Administrator"
+
+    existing_user = db.query(User).filter(User.username == admin_username).first()
+    if not existing_user:
+        try:
+            admin_user = User(
+                username=admin_username,
+                password=admin_password,
+                role=admin_role,
+                fullname=admin_fullname
+            )
+            db.add(admin_user)
+            db.commit()
+        
+        except IntegrityError:
+            db.rollback()
+          
+   
+
 Base.metadata.create_all(bind=engine)
+
+with next(get_db()) as db:
+    create_admin_user(db)
+
 app.include_router(user, prefix="/users", tags=["Users"])  
 app.include_router(stream, prefix="/streams", tags=["Stream"])  

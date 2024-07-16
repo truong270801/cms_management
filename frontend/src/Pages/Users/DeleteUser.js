@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import DeleteConfirmation from '../Popup/DeleteConfirmation';
+import DeleteConfirmation from '../../Component/Popup/DeleteConfirmation';
 
 
 const DeleteUser = ({ userId, onUserDeleted }) => {

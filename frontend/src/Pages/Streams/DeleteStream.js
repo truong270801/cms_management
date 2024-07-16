@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import DeleteConfirmation from '../Popup/DeleteConfirmation';
+import DeleteConfirmation from '../../Component/Popup/DeleteConfirmation';
 
 const DeleteStream = ({ streamId, onStreamDeleted }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
-
-
     const handleDeleteClick = () => {
         setShowConfirmation(true);
     };
@@ -25,9 +23,8 @@ const DeleteStream = ({ streamId, onStreamDeleted }) => {
              }
         );
             onStreamDeleted(streamId);
-        } catch (error) {
-            console.error('Lỗi', error);
-            
+        } catch (error) {          
+            alert("Bạn không có quyền thực hiện thao tác này.")
         } finally {
             setShowConfirmation(false);
         }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Popup from '../Popup/Popup';
-
+import Popup from "../../Component/Popup/Popup";
+import NavbarTop from "../../Component/Navbar/NavbarTop";
+import NavbarLeft from "../../Component/Navbar/NavbarLeft";
 
 const CreateUser = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -23,7 +24,7 @@ const CreateUser = () => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
-}
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -40,15 +41,16 @@ const CreateUser = () => {
           },
         }
       );
-    setShowPopup(true);
+      setShowPopup(true);
     } catch (error) {
       console.error(error);
     }
   };
-    
 
   return (
-    
+    <div>
+      <NavbarTop />
+      <NavbarLeft />
       <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
         <h1 className="flex justify-center text-24">CREATE USER</h1>
 
@@ -90,7 +92,6 @@ const CreateUser = () => {
                     />
                   </div>
 
-                 
                   <div className="w-[150px] sm:col-span-5">
                     <label>Role</label>
                     <select
@@ -113,7 +114,12 @@ const CreateUser = () => {
                       >
                         Submit
                       </button>
-                      {showPopup && <Popup message="User creation successful!" onClose={handleClosePopup} />}
+                      {showPopup && (
+                        <Popup
+                          message="User creation successful!"
+                          onClose={handleClosePopup}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -122,6 +128,7 @@ const CreateUser = () => {
           </div>
         </form>
       </div>
+    </div>
   );
 };
 
