@@ -1,3 +1,4 @@
+#schemas.py
 from typing import Optional,Generic, TypeVar
 from pydantic import BaseModel, Field
 from pydantic.generics import GenericModel
@@ -17,22 +18,20 @@ class RequestUser(BaseModel):
     user: userSchema = Field(...)
 
 class ResponseUser (GenericModel,Generic[T]):
-    user: Optional[T]
+    user: Optional[T] 
 
+class StreamSchema(BaseModel):
+    id: str = Field(..., example="a1b2c3")
+    location: str = Field(..., example="/all/file1.mp4")
+    start: str = Field(..., example="2024-07-16T23:00:00+07:00")
+    end: str = Field(..., example="2024-07-17T01:00:00+07:00")
+    play_auth_type: Optional[str] = Field(default="", example="token")
 
-class streamSchema(BaseModel):
-    start_time:Optional[str] = None
-    end_time:Optional[str] = None
-    url:Optional[str] = None
-    channel_id:Optional[int] = None
-   
-   
-    
     class Config:
         orm_mode = True
 
-class requestStream(BaseModel):
-    stream: streamSchema = Field(...)
+class RequestStream(BaseModel):
+    items: StreamSchema
 
-class ResponseStream (GenericModel,Generic[T]):
-    stream: Optional[T]
+class ResponseStream(BaseModel):
+    message: str

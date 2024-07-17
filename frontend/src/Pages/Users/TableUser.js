@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { tableUser } from "../../Service/User_Service";
 import DeleteUser from "./DeleteUser";
 import UpdateUser from "./UpdateUser";
 import NavbarTop from "../../Component/Navbar/NavbarTop";
@@ -11,21 +11,16 @@ const TableUser = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://127.0.0.1:8000/users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setData(response.data.user);
+        const users = await tableUser();
+        setData(users);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData();
+    getData();
   }, []);
 
   const handleUserDeleted = (userId) => {

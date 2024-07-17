@@ -11,6 +11,7 @@ export const UserProvider = ({ children }) => {
 
   const handleLogout = () => {
     setUser(null); 
+    
   };
 
   return (

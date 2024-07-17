@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { createUser } from "../../Service/User_Service";
 import Popup from "../../Component/Popup/Popup";
 import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
@@ -27,25 +27,15 @@ const CreateUser = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
 
     try {
-      await axios.post(
-        "http://127.0.0.1:8000/users/create",
-        {
-          user,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await createUser(user);
       setShowPopup(true);
     } catch (error) {
       console.error(error);
     }
   };
+
 
   return (
     <div>

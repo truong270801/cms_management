@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import axios from "axios";
 import VideoPlayer from "../../Component/Video/VideoPlayer";
 import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
 import Popup from "../../Component/Popup/Popup";
+import { tableStream } from "../../Service/Stream_Service";
 
 const MonitorStream = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -16,20 +16,14 @@ const MonitorStream = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://127.0.0.1:8000/streams", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setLivestreams(response.data.stream);
+        const stream = await tableStream();
+        setLivestreams(stream);
       } catch (error) {
-        if (error.response.status === 403) {
+        if (error.response && error.response.status === 403) {
           setShowPopup(true);
         } else {
-          alert("Đã xảy ra lỗi khi tạo luồng, vui lòng đăng nhập lại!");
-        }
-      }
+          alert("An error occurred while fetching the stream list.");
+        }      }
     };
 
     fetchData();
@@ -42,17 +36,17 @@ const MonitorStream = () => {
     setShowPopup(false);
   
   };
-  const activeLivestreams = livestreams.filter((stream) => {
+  const activeLivestreams = livestreams ? livestreams.filter((stream) => {
     const now = new Date();
-    const startTime = new Date(stream.start_time);
-    const endTime = new Date(stream.end_time);
+    const startTime = new Date(stream.StartAt);
+    const endTime = new Date(stream.EndAt);
     return startTime <= now && now <= endTime;
-  });
-
+  }) : [];
+  
   let filteredLivestreams = [...activeLivestreams];
   if (searchVideoID.trim() !== "") {
     filteredLivestreams = filteredLivestreams.filter((stream) =>
-      stream.id.toString().toLowerCase().includes(searchVideoID.toLowerCase())
+      stream.VideoID.toString().toLowerCase().includes(searchVideoID.toLowerCase())
     );
   }
 
@@ -80,22 +74,23 @@ const MonitorStream = () => {
   }, []);
 
   const renderLivestreamCards = () => {
+   
     return filteredLivestreams.map((stream) => (
       <div
-        key={stream.id}
+        key={stream.VideoID}
         className="border rounded-lg p-4 mb-4 w-[390px] h-[350px] mr-4"
       >
         <div className="flex justify-between items-center mb-2">
-          <VideoPlayer url={stream.url} onPlay={handlePlay} />
+          <VideoPlayer url={stream.PlayURL} onPlay={handlePlay} />
         </div>
         <h2 className="text-[18px] text-[#3C8DBC] mb-1 font-bold underline">
-          VideoID: {stream.id}
+          VideoID: {stream.VideoID}
         </h2>
         <p className="text-sm text-gray-600 mb-1">
-          Thời gian bắt đầu: {renderFormattedDateTime(stream.start_time)}
+          Thời gian bắt đầu: {renderFormattedDateTime(stream.StartAt)}
         </p>
         <p className="text-sm text-gray-600">
-          Thời gian kết thúc: {renderFormattedDateTime(stream.end_time)}
+         Thời gian kết thúc: {renderFormattedDateTime(stream.EndAt)}
         </p>
       </div>
     ));
@@ -112,10 +107,10 @@ const MonitorStream = () => {
         </div>
         <div className="flex justify-between space-x-4 mt-4">
           <div className="relative">
-            <input
+          <input
               type="text"
-              placeholder="Tìm kiếm ..."
-              className="px-4 py-2 w-[400px] border rounded-md"
+              placeholder="Tìm kiếm..."
+              className="px-4 py-2 w-[400px] border rounded-md w-100"
               value={searchVideoID}
               onChange={(e) => setSearchVideoID(e.target.value)}
             />
@@ -140,8 +135,8 @@ const MonitorStream = () => {
                 setSortOrder(sortOrderField);
               }}
             >
-              <option value="start_time:asc">Tăng dần</option>
-              <option value="start_time:desc">Giảm dần</option>
+              <option value="StartAt:asc">High</option>
+              <option value="StartAt:desc">Low</option>
             </select>
           </div>
         </div>

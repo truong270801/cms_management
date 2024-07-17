@@ -1,52 +1,51 @@
-import React, { useEffect, useRef } from "react";
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
+import React, { useEffect, useRef } from 'react';
+import Hls from 'hls.js';
 
 const VideoPlayer = ({ url, onPlay }) => {
-  const videoNode = useRef(null);
-  const playerRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
-    
-    if (playerRef.current) {
-      playerRef.current.dispose();
+    let hls;
+
+    if (Hls.isSupported()) {
+      hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(videoRef.current);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        videoRef.current.play();
+      });
+    } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+      videoRef.current.src = url;
+      videoRef.current.addEventListener('loadedmetadata', () => {
+        videoRef.current.play();
+      });
     }
 
-    const options = {
-      fill: true,
-      fluid: true,
-      autoplay: false,
-      controls: true,
-      preload: "metadata",
-      sources: [
-        {
-          src: url,
-          type: "application/x-mpegURL",
-        },
-      ],
-    };
-    const playerInstance = videojs(videoNode.current, options);
+    const videoElement = videoRef.current;
 
-    playerInstance.on("play", () => {
-      if (onPlay) {
-        onPlay(playerInstance);
-      }
-    });
-
-    playerRef.current = playerInstance;
+    if (videoElement) {
+      videoElement.addEventListener('play', () => {
+        if (onPlay) {
+          onPlay(videoElement);
+        }
+      });
+    }
 
     return () => {
-      if (playerRef.current) {
-        playerRef.current = null;
+      if (hls) {
+        hls.destroy();
+      }
+      if (videoElement) {
+        videoElement.removeEventListener('play', () => {
+          if (onPlay) {
+            onPlay(videoElement);
+          }
+        });
       }
     };
   }, [url, onPlay]);
 
-  return (
-    <div data-vjs-player>
-      <video ref={videoNode} className="video-js vjs-default-skin"></video>
-    </div>
-  );
+  return <video ref={videoRef} controls className="video-js vjs-default-skin"></video>;
 };
 
 export default VideoPlayer;

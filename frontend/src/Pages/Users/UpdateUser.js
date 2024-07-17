@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { updateUser } from '../../Service/User_Service';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -35,22 +35,14 @@ const UpdateUser = ({ user, onUserUpdate, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.put(`http://127.0.0.1:8000/users/${user.id}`, 
-        { user: userData },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      onUserUpdate(response.data.user);
-      alert('Successfully');
-    onClose();
+      const updatedUser = await updateUser(user.id, userData);
+      onUserUpdate(updatedUser);
+      alert('Successfully updated');
+      onClose();
     } catch (error) {
-      console.error('Đã xảy ra lỗi khi cập nhật dữ liệu:', error);
+      console.error('Error updating user:', error);
     }
   };
 

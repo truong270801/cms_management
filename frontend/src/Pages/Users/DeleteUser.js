@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { deleteUser } from '../../Service/User_Service';
 import DeleteConfirmation from '../../Component/Popup/DeleteConfirmation';
 
 
@@ -19,17 +19,10 @@ const DeleteUser = ({ userId, onUserDeleted }) => {
 
     const handleConfirm = async () => {
         try {
-            const token = localStorage.getItem('token'); 
-            await axios.delete(`http://127.0.0.1:8000/users/${userId}`, 
-                {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await deleteUser(userId);
             onUserDeleted(userId);
-           
         } catch (error) {
-            console.error('Lỗi', error);
+            console.error('Error deleting user:', error);
         } finally {
             setShowConfirmation(false);
         }

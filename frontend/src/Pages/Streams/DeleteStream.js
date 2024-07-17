@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { deleteStream } from "../../Service/Stream_Service";
 import DeleteConfirmation from '../../Component/Popup/DeleteConfirmation';
 
 const DeleteStream = ({ streamId, onStreamDeleted }) => {
@@ -14,14 +14,7 @@ const DeleteStream = ({ streamId, onStreamDeleted }) => {
 
     const handleConfirm = async () => {
         try {
-            const token = localStorage.getItem('token'); 
-             await axios.delete(`http://127.0.0.1:8000/streams/${streamId}`, 
-                {
-                 headers: {
-                     Authorization: `Bearer ${token}`
-                }
-             }
-        );
+            await deleteStream(streamId);
             onStreamDeleted(streamId);
         } catch (error) {          
             alert("Bạn không có quyền thực hiện thao tác này.")

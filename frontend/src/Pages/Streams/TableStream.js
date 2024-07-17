@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import DeleteStream from "./DeleteStream";
 import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
 import Popup from "../../Component/Popup/Popup";
+import { tableStream } from "../../Service/Stream_Service";
+ 
 
 const TableStream = () => {
   const [data, setData] = useState([]);
@@ -13,36 +14,29 @@ const TableStream = () => {
   const [searchVideoID, setSearchVideoID] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://127.0.0.1:8000/streams", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setData(response.data.stream);
-      }catch (error) {
-        if (error.response.status === 403) {
+        const stream = await tableStream();
+        setData(stream);
+      } catch (error) {
+        if (error.response && error.response.status === 403) {
           setShowPopup(true);
         } else {
-          alert("Đã xảy ra lỗi khi tạo luồng, vui lòng đăng nhập lại!");
-        }
-      }
+          alert("An error occurred while fetching the stream list.");
+        }      }
     };
 
     fetchData();
 
     const intervalId = setInterval(fetchData, 10000);
-
     return () => clearInterval(intervalId);
   }, []);
+
   const handleClosePopup = () => {
     setShowPopup(false);
-  
   };
+
   const getStatus = (start_time, end_time) => {
     const currentTime = new Date();
     const startTime = new Date(start_time);
@@ -52,14 +46,12 @@ const TableStream = () => {
       return "active";
     } else if (startTime > currentTime) {
       return "upcoming";
-    } else if (endTime < currentTime) {
-      return "finished";
     }
     return "unknown";
   };
 
   const handleStreamDeleted = (streamId) => {
-    setData(data.filter((stream) => stream.id !== streamId));
+    setData(data.filter((stream) => stream.ID !== streamId));
   };
 
   const handleSortChange = (e) => {
@@ -75,21 +67,23 @@ const TableStream = () => {
   };
 
   const renderTableRows = () => {
+    if (!Array.isArray(data)) {
+     
+      return null;
+    }
     let filteredData = [...data];
 
     if (selectedStatus !== "All") {
       filteredData = filteredData.filter(
-        (stream) =>
-          getStatus(stream.start_time, stream.end_time) === selectedStatus
+        (stream) => getStatus(stream.StartAt, stream.EndAt) === selectedStatus
       );
     }
 
     if (searchVideoID.trim() !== "") {
       filteredData = filteredData.filter((stream) => {
         return (
-          stream.id &&
-          stream.id
-            .toString()
+          stream.VideoID &&
+          stream.VideoID.toString()
             .toLowerCase()
             .includes(searchVideoID.toLowerCase())
         );
@@ -105,25 +99,25 @@ const TableStream = () => {
     });
 
     return filteredData.map((stream) => (
-      <tr key={stream.id}>
-        <td className="text-left py-3 px-4">{stream.id}</td>
-        <td className="text-left py-3 px-4">{stream.url}</td>
+      <tr key={stream.ID}>
+        <td className="text-left py-3 px-4">{stream.ID}</td>
+        <td className="text-left py-3 px-4">{stream.PlayURL}</td>
         <td className="text-left py-3 px-4">
-          {renderFormattedDateTime(stream.start_time)}
+          {renderFormattedDateTime(stream.StartAt)}
         </td>
         <td className="text-left py-3 px-4">
-          {renderFormattedDateTime(stream.end_time)}
+          {renderFormattedDateTime(stream.EndAt)}
         </td>
-        <td className="text-left py-3 px-4">{stream.channel_id}</td>
+        <td className="text-left py-3 px-4">{stream.VideoID}</td>
         <td className="text-left py-3 px-4">
-          {getStatus(stream.start_time, stream.end_time)}
+          {getStatus(stream.StartAt, stream.EndAt)}
         </td>
         <td className="text-left py-3 px-4 flex flex-row">
           {["active", "upcoming"].includes(
-            getStatus(stream.start_time, stream.end_time)
+            getStatus(stream.StartAt, stream.EndAt)
           ) && (
             <DeleteStream
-              streamId={stream.id}
+              streamId={stream.ID}
               onStreamDeleted={handleStreamDeleted}
             />
           )}
@@ -138,13 +132,13 @@ const TableStream = () => {
       <NavbarLeft />
       <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
         <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold ">DANH SÁCH STREAM</h1>
+          <h1 className="text-2xl font-bold">DANH SÁCH STREAM</h1>
         </div>
         <div className="flex justify-between space-x-4 mt-4">
           <div className="relative">
             <input
               type="text"
-              placeholder="Tìm kiếm ..."
+              placeholder="Tìm kiếm..."
               className="px-4 py-2 w-[400px] border rounded-md w-100"
               value={searchVideoID}
               onChange={(e) => setSearchVideoID(e.target.value)}
@@ -168,18 +162,17 @@ const TableStream = () => {
               <option value="All">Tất cả</option>
               <option value="upcoming">Sắp diễn ra</option>
               <option value="active">Đang diễn ra</option>
-              <option value="finished">Kết thúc</option>
+             
             </select>
-            <label className="text-[16px]">Giờ bắt đầu:</label>
+            <label className="text-[16px]">Thời gian bắt đầu:</label>
             <select
               name="sortBy"
               className="px-4 py-2 border rounded-md"
               value={`${sortBy}:${sortOrder}`}
               onChange={handleSortChange}
             >
-              <option value="start_time:asc">Tăng dần</option>
-
-              <option value="start_time:desc">Giảm dần</option>
+              <option value="StartAt:asc">High</option>
+              <option value="StartAt:desc">Low</option>
             </select>
           </div>
         </div>
@@ -195,16 +188,16 @@ const TableStream = () => {
                   URL
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                THỜI GIAN BẮT ĐẦU
+                  THỜI GIAN BẮT ĐẦU
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                   THỜI GIAN KẾT THÚC
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  CHANNEL ID
+                  VIDEO ID
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  TRẠNG THÁI
+                  TRẠNG THÁI 
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                   HÀNH ĐỘNG
@@ -212,16 +205,15 @@ const TableStream = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700">{renderTableRows()}</tbody>
-            {showPopup && (
-                        <Popup
-                          message="Bạn không có quyền thực hiện thao tác này."
-                          onClose={handleClosePopup}
-                        />
-                      )}
           </table>
+          {showPopup && (
+            <Popup
+              message="Bạn không có quyền thực hiện thao tác này."
+              onClose={handleClosePopup}
+            />
+          )}
         </div>
       </div>
-
     </div>
   );
 };
