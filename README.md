@@ -1,7 +1,7 @@
 # Ứng dụng quản lý người dùng và restream 
 
 ##
-- Đăng nhập 
+- Đăng nhập (username: admin ; password:123)
 - Thêm sửa xóa người dùng 
 - Thêm sửa xóa phiên stream
  ## Cài đặt 
