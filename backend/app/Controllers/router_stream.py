@@ -1,6 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.security.middleware_check import check_jwt_token, check_admin
-from app.Database.schemas import  RequestStream, ResponseStream
+from app.Security.middleware_check import check_jwt_token, check_admin
+from sqlalchemy.orm import Session
+from app.Database.config import get_db
+from app.Model.model import Stream
+from app.Database.schemas import StreamSchema, RequestStream, ResponseStream
 import httpx
 import os
 from dotenv import load_dotenv
@@ -21,7 +24,6 @@ async def get_session_list(
     }
 
     try:
-      
         async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=headers)
             response.raise_for_status() 
@@ -31,40 +33,43 @@ async def get_session_list(
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 
-@stream.post("/create", response_model=ResponseStream)
+@stream.post("/create", response_model=ResponseStream[StreamSchema])
 async def create_stream(
     stream_data: RequestStream,
     token_payload: dict = Depends(check_jwt_token),
+    db: Session = Depends(get_db)
 ):
     await check_admin(token_payload)
     url = os.getenv('API_POST_STREAM')
-
-    auth_key = os.getenv('AUTHORIZATION_KEY')
-    aes_key = os.getenv('AES_KEY')
-
-    if not auth_key or not aes_key:
-        raise HTTPException(status_code=500, detail="Environment variables AUTHORIZATION_KEY or AES_KEY are missing")
-
     headers = {
-        "Authorization": f"Bearer {auth_key}",
-        "AES-Key": aes_key,
-        "Content-Type": "application/json"
+        "Authorization": f"Bearer {os.getenv('AUTHORIZATION_KEY')}",
+        "AES-Key": os.getenv("AES_KEY")
     }
-
-    payload = stream_data.items.dict()
-
+    
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.post(url, headers=headers, json=payload)
+            response = await client.post(url, headers=headers, json=stream_data.items.dict())
             response.raise_for_status()
-        
-
-            return {"message": "ok"} 
+            response_data = response.json()
+            
+            db_stream = Stream(
+                id=stream_data.items.id,
+                location=stream_data.items.location,
+                start=stream_data.items.start,
+                end=stream_data.items.end,
+                play_auth_type=stream_data.items.play_auth_type,
+                play_url=response_data.get("playUrl")
+            )
+            db.add(db_stream)
+            db.commit()
+            db.refresh(db_stream)
+            return ResponseStream(items=db_stream)
     except httpx.HTTPStatusError as exc:
+        db.rollback()
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as exc:
+        db.rollback()
         raise HTTPException(status_code=500, detail=str(exc))
-
     
 
 

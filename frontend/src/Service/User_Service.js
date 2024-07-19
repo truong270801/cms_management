@@ -1,10 +1,17 @@
 import axios from "axios";
 
-const token = localStorage.getItem("token");
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+const CREATE_USERS_URL = `${API_BASE_URL}/users/create`;
+const GET_USERS_URL = `${API_BASE_URL}/users`;
+const UPDATE_USERS_URL = `${API_BASE_URL}/users/update`;
+const DELETE_USERS_URL = `${API_BASE_URL}/users/delete`;
 
 export const tableUser = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/users", {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(GET_USERS_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -18,8 +25,9 @@ export const tableUser = async () => {
 
 export const createUser = async (user) => {
   try {
+    const token = localStorage.getItem("token");
     await axios.post(
-      "http://127.0.0.1:8000/users/create",
+      CREATE_USERS_URL,
       { user },
       {
         headers: {
@@ -35,8 +43,9 @@ export const createUser = async (user) => {
 
 export const updateUser = async (userId, userData) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://127.0.0.1:8000/users/${userId}`,
+        `${UPDATE_USERS_URL}/${userId}`,
         { user: userData },
         {
           headers: {
@@ -54,7 +63,8 @@ export const updateUser = async (userId, userData) => {
   
   export const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/users/${userId}`, {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${DELETE_USERS_URL}/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

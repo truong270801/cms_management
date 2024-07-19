@@ -1,11 +1,17 @@
 import axios from "axios";
 
-const token = localStorage.getItem("token");
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+const CREATE_STREAM_URL = `${API_BASE_URL}/streams/create`;
+const GET_STREAMS_URL = `${API_BASE_URL}/streams`;
+const DELETE_STREAM_URL = `${API_BASE_URL}/streams/delete`;
 
 export const createStream = async (stream) => {
   try {
+    const token = localStorage.getItem("token");
     const response = await axios.post(
-      "http://127.0.0.1:8000/streams/create",
+      CREATE_STREAM_URL,
       { items: stream },
       {
         headers: {
@@ -21,8 +27,10 @@ export const createStream = async (stream) => {
 };
 
 export const tableStream = async () => {
+
   try {
-    const response = await axios.get("http://127.0.0.1:8000/streams", {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(GET_STREAMS_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -36,7 +44,8 @@ export const tableStream = async () => {
 
 export const deleteStream = async (streamId) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/streams/delete/${streamId}`, {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${DELETE_STREAM_URL}/${streamId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

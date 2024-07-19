@@ -4,11 +4,15 @@ import DeleteUser from "./DeleteUser";
 import UpdateUser from "./UpdateUser";
 import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
+import Popup from "../../Component/Popup/Popup";
+
 
 const TableUser = () => {
   const [data, setData] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
 
   useEffect(() => {
     const getData = async () => {
@@ -16,6 +20,7 @@ const TableUser = () => {
         const users = await tableUser();
         setData(users);
       } catch (error) {
+        setShowPopup(true);
         console.error("Error fetching data:", error);
       }
     };
@@ -26,7 +31,9 @@ const TableUser = () => {
   const handleUserDeleted = (userId) => {
     setData(data.filter((user) => user.id !== userId));
   };
-
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
   const handleUserUpdated = (updatedUser) => {
     setData(
       data.map((user) => (user.id === updatedUser.id ? updatedUser : user))
@@ -104,6 +111,12 @@ const TableUser = () => {
             onClose={() => setShowUpdateModal(false)}
           />
         )}
+        {showPopup && (
+            <Popup
+              message="Bạn không có quyền thực hiện thao tác này."
+              onClose={handleClosePopup}
+            />
+          )}
       </div>
     </div>
   );

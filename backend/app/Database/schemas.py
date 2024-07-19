@@ -21,17 +21,17 @@ class ResponseUser (GenericModel,Generic[T]):
     user: Optional[T] 
 
 class StreamSchema(BaseModel):
-    id: str = Field(..., example="a1b2c3")
-    location: str = Field(..., example="/all/file1.mp4")
-    start: str = Field(..., example="2024-07-16T23:00:00+07:00")
-    end: str = Field(..., example="2024-07-17T01:00:00+07:00")
-    play_auth_type: Optional[str] = Field(default="", example="token")
+    id: Optional[str]
+    location: Optional[str]
+    start: Optional[str]
+    end: Optional[str] 
+    play_auth_type: Optional[str] 
 
     class Config:
         orm_mode = True
 
 class RequestStream(BaseModel):
-    items: StreamSchema
+    items: StreamSchema = Field(...)
 
-class ResponseStream(BaseModel):
-    message: str
+class ResponseStream(GenericModel, Generic[T]):
+    items: Optional[T]
