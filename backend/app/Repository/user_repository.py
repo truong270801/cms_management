@@ -1,6 +1,6 @@
 #user_repository.py
 from sqlalchemy.orm import Session
-from app.Model.model import User
+from Model.model import User
 
 
 class UserRepository:
@@ -22,7 +22,7 @@ class UserRepository:
 
     def update_user(self, user_id: int, user_data: dict):
         user = self.get_user_by_id(user_id)
-        if user:
+        if user: 
             for key, value in user_data.items():
                 setattr(user, key, value)
             self.db.commit()

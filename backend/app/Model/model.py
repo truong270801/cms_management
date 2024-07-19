@@ -1,7 +1,7 @@
 # model.py
-from app.Database.config import Base
+from Database.config import Base
 from sqlalchemy.orm import Session
-import uuid
+
 from sqlalchemy import Column ,Integer, String
 
 class User(Base):

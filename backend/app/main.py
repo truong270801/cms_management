@@ -2,13 +2,13 @@
 from fastapi import HTTPException, Depends, FastAPI
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timedelta
-from app.Controllers.router_user import user
-from app.Controllers.router_stream import stream
-from app.Security.jwt import create_jwt_token
-from app.Database.config import get_db, Base, engine
+from Controllers.router_user import user
+from Controllers.router_stream import stream
+from Security.jwt import create_jwt_token
+from Database.config import get_db, Base, engine
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from app.Model.model import User
+from Model.model import User
 import os
 from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError
