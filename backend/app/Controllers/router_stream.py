@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.Security.middleware_check import check_jwt_token, check_admin
+from app.Security_jwt.middleware_check import check_jwt_token, check_admin
 from sqlalchemy.orm import Session
 from app.Database.config import get_db
 from app.Model.model import Stream

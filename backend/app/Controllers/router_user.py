@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.Database.config import get_db
 from app.Database.schemas import RequestUser, ResponseUser
 from app.Controllers import crud
-from app.Security.middleware_check import check_jwt_token,check_admin
+from app.Security_jwt.middleware_check import check_jwt_token,check_admin
 
 user = APIRouter()
 
