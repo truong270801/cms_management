@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
-from Security.middleware_check import check_jwt_token, check_admin
+from app.Security.middleware_check import check_jwt_token, check_admin
 from sqlalchemy.orm import Session
-from Database.config import get_db
-from Model.model import Stream
-from Database.schemas import StreamSchema, RequestStream, ResponseStream
+from app.Database.config import get_db
+from app.Model.model import Stream
+from app.Database.schemas import StreamSchema, RequestStream, ResponseStream
 import httpx
 import os
 from dotenv import load_dotenv

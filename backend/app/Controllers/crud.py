@@ -1,7 +1,7 @@
 #crud.py
 from sqlalchemy.orm import Session
-from Database.schemas import RequestUser
-from Repository.user_repository import UserRepository
+from app.Database.schemas import RequestUser
+from app.Repository.user_repository import UserRepository
 
 # crud users
 def create_user(db: Session, request: RequestUser):
