@@ -12,18 +12,26 @@ const MonitorStream = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [searchVideoID, setSearchVideoID] = useState("");
   const currentPlayingRef = useRef(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const stream = await tableStream();
-        setLivestreams(stream);
+        if (stream && stream.length > 0) {
+          setLivestreams(stream);
+          setError(null); 
+        } else {
+          setLivestreams(null);
+          setError("KHÔNG CÓ DỮ LIỆU!");
+        }
       } catch (error) {
         if (error.response && error.response.status === 403) {
           setShowPopup(true);
         } else {
-          alert("An error occurred while fetching the stream list.");
-        }      }
+          setError("Đã xảy ra lỗi khi lấy dữ liệu.");
+        }     
+      }
     };
 
     fetchData();
@@ -142,6 +150,8 @@ const MonitorStream = () => {
         </div>
 
         <div className="flex flex-wrap mt-8">{renderLivestreamCards()}</div>
+        {error && <p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">{error}</p>}
+
         {showPopup && (
                         <Popup
                           message="Bạn không có quyền thực hiện thao tác này."

@@ -4,27 +4,35 @@ import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
 import Popup from "../../Component/Popup/Popup";
 import { tableStream } from "../../Service/Stream_Service";
- 
+
 
 const TableStream = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [sortBy, setSortBy] = useState("start_time");
   const [sortOrder, setSortOrder] = useState("asc");
   const [searchVideoID, setSearchVideoID] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const stream = await tableStream();
-        setData(stream);
+        if (stream && stream.length > 0) {
+          setData(stream);
+          setError(null); 
+        } else {
+          setData(null);
+          setError("KHÔNG CÓ DỮ LIỆU!");
+        }
       } catch (error) {
         if (error.response && error.response.status === 403) {
           setShowPopup(true);
         } else {
-          alert("An error occurred while fetching the stream list.");
-        }      }
+          setError("Đã xảy ra lỗi khi lấy danh sách stream.");
+        }
+      }
     };
 
     fetchData();
@@ -68,7 +76,7 @@ const TableStream = () => {
 
   const renderTableRows = () => {
     if (!Array.isArray(data)) {
-     
+
       return null;
     }
     let filteredData = [...data];
@@ -116,11 +124,11 @@ const TableStream = () => {
           {["active", "upcoming"].includes(
             getStatus(stream.StartAt, stream.EndAt)
           ) && (
-            <DeleteStream
-              streamId={stream.ID}
-              onStreamDeleted={handleStreamDeleted}
-            />
-          )}
+              <DeleteStream
+                streamId={stream.ID}
+                onStreamDeleted={handleStreamDeleted}
+              />
+            )}
         </td>
       </tr>
     ));
@@ -162,7 +170,7 @@ const TableStream = () => {
               <option value="All">Tất cả</option>
               <option value="upcoming">Sắp diễn ra</option>
               <option value="active">Đang diễn ra</option>
-             
+
             </select>
             <label className="text-[16px]">Thời gian bắt đầu:</label>
             <select
@@ -197,15 +205,17 @@ const TableStream = () => {
                   VIDEO ID
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                  TRẠNG THÁI 
+                  TRẠNG THÁI
                 </th>
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                   HÀNH ĐỘNG
                 </th>
               </tr>
             </thead>
+           
             <tbody className="text-gray-700">{renderTableRows()}</tbody>
           </table>
+          {error && <p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">{error}</p>}
           {showPopup && (
             <Popup
               message="Bạn không có quyền thực hiện thao tác này."
