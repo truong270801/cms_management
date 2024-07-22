@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom'; 
 import UserContext from '../Context/UserContext';
 
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const LOGIN_USER_URL = `${API_BASE_URL}/login`;
+
 const Login = () => {
   const { onLogin } = useContext(UserContext);
   const [username, setUsername] = useState("");
@@ -15,7 +19,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/login",
+        LOGIN_USER_URL,
         { username, password },
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
