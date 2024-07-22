@@ -63,6 +63,12 @@ const CreateStream = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     if (!stream.location.trim()) {
+      setError("Đường dẫn không được để trống.");
+      return;
+    }
+    
     if (!validateTimes()) {
       return;
     }
