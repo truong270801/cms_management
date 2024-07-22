@@ -34,4 +34,4 @@ class RequestStream(BaseModel):
     items: StreamSchema = Field(...)
 
 class ResponseStream(GenericModel, Generic[T]):
-    items: Optional[T]
+    play_url: str
