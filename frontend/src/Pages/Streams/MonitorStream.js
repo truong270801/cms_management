@@ -13,6 +13,7 @@ const MonitorStream = () => {
   const [searchVideoID, setSearchVideoID] = useState("");
   const currentPlayingRef = useRef(null);
   const [error, setError] = useState("");
+  const [upcomingError, setUpcomingError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,7 @@ const MonitorStream = () => {
         if (stream && stream.length > 0) {
           setLivestreams(stream);
           setError(null); 
+          setUpcomingError("CÓ LIVESTREAM SẮP DIỄN RA.");
         } else {
           setLivestreams(null);
           setError("KHÔNG CÓ DỮ LIỆU!");
@@ -40,9 +42,9 @@ const MonitorStream = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
   const handleClosePopup = () => {
     setShowPopup(false);
-  
   };
   const activeLivestreams = livestreams ? livestreams.filter((stream) => {
     const now = new Date();
@@ -51,6 +53,12 @@ const MonitorStream = () => {
     return startTime <= now && now <= endTime;
   }) : [];
   
+  const upcomingLivestreams =  livestreams ? livestreams.filter((stream) => {
+    const now = new Date();
+    const startTime = new Date(stream.StartAt);
+    return startTime > now;
+  }) : [];
+
   let filteredLivestreams = [...activeLivestreams];
   if (searchVideoID.trim() !== "") {
     filteredLivestreams = filteredLivestreams.filter((stream) =>
@@ -76,6 +84,7 @@ const MonitorStream = () => {
     currentPlayingRef.current = playerInstance;
   }, []);
 
+  
   const renderFormattedDateTime = useCallback((dateTimeString) => {
     const date = new Date(dateTimeString);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -150,6 +159,10 @@ const MonitorStream = () => {
         </div>
 
         <div className="flex flex-wrap mt-8">{renderLivestreamCards()}</div>
+        {upcomingLivestreams.length > 0 && (<p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">
+          {upcomingError}
+              </p>
+            )}
         {error && <p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">{error}</p>}
 
         {showPopup && (
