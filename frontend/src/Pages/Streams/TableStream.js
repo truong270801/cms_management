@@ -21,7 +21,7 @@ const TableStream = () => {
         const stream = await tableStream();
         if (stream && stream.length > 0) {
           setData(stream);
-          setError(null); 
+          setError(null);
         } else {
           setData(null);
           setError("KHÔNG CÓ DỮ LIỆU!");
@@ -36,9 +36,6 @@ const TableStream = () => {
     };
 
     fetchData();
-
-    const intervalId = setInterval(fetchData, 10000);
-    return () => clearInterval(intervalId);
   }, []);
 
   const handleClosePopup = () => {
@@ -212,7 +209,7 @@ const TableStream = () => {
                 </th>
               </tr>
             </thead>
-           
+
             <tbody className="text-gray-700">{renderTableRows()}</tbody>
           </table>
           {error && <p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">{error}</p>}

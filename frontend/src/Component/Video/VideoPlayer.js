@@ -11,14 +11,8 @@ const VideoPlayer = ({ url, onPlay }) => {
       hls = new Hls();
       hls.loadSource(url);
       hls.attachMedia(videoRef.current);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        videoRef.current.play();
-      });
     } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
       videoRef.current.src = url;
-      videoRef.current.addEventListener('loadedmetadata', () => {
-        videoRef.current.play();
-      });
     }
 
     const videoElement = videoRef.current;

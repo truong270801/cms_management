@@ -41,16 +41,21 @@ const CreateStream = () => {
       ('0' + Math.abs(offset / 60)).slice(-2) +
       ':' +
       ('0' + Math.abs(offset % 60)).slice(-2);
-    
+
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${timezoneOffset}`;
   };
 
   const validateTimes = () => {
     const startTime = new Date(stream.start);
     const endTime = new Date(stream.end);
+    const currentTime = new Date();
 
     if (endTime <= startTime) {
       setError("Thời gian kết thúc phải sau thời gian bắt đầu.");
+      return false;
+    }
+    if (endTime <= currentTime) {
+      setError("Thời gian kết thúc phải sau thời gian hiện tại.");
       return false;
     }
     return true;
@@ -63,16 +68,13 @@ const CreateStream = () => {
     }
 
     try {
-      // Chuyển đổi thời gian sang định dạng RFC3339
       const formattedStream = {
         ...stream,
         start: formatRFC3339(new Date(stream.start)),
         end: formatRFC3339(new Date(stream.end)),
       };
-
-      const response = await createStream(formattedStream);
+      await createStream(formattedStream)
       setShowPopup(true);
-      console.log("Play URL:", response.PlayURL);
     } catch (error) {
       if (error.response && error.response.status === 403) {
         setError("Bạn không có quyền thực hiện thao tác này.");
@@ -95,11 +97,12 @@ const CreateStream = () => {
               <div className="lg:col-span-2">
                 <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                   <div className="md:col-span-5">
-                    <label className="mr-4">ID: </label>
+                    <label className="mr-4">VideoID: </label>
                     <input
                       type="text"
                       name="id"
                       value={stream.id}
+                      placeholder="a1b2c3d4"
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 bg-gray-50"
                     />
@@ -128,25 +131,31 @@ const CreateStream = () => {
                   </div>
 
                   <div className="md:col-span-5">
-                    <label>Location</label>
+                    <label>Đường dẫn: </label>
                     <input
                       type="text"
                       name="location"
                       value={stream.location}
+                      placeholder="/all/file1.m3u8"
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     />
                   </div>
 
                   <div className="md:col-span-5">
-                    <label>Play Auth Type</label>
-                    <input
+                    <label>Loại xác thực: </label>
+                    <select
                       type="text"
                       name="play_auth_type"
                       value={stream.play_auth_type}
                       onChange={handleChange}
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    />
+                      className="h-10 border ml-4 mt-1 rounded px-4  bg-gray-50"
+                    >
+                      <option value="">Không xác thực</option>
+                      <option value="token">Có xác thực bằng token</option>
+
+                    </select>
+
                   </div>
 
                   {error && (

@@ -21,7 +21,7 @@ const MonitorStream = () => {
         const stream = await tableStream();
         if (stream && stream.length > 0) {
           setLivestreams(stream);
-          setError(null); 
+          setError(null);
           setUpcomingError("CÓ LIVESTREAM SẮP DIỄN RA.");
         } else {
           setLivestreams(null);
@@ -32,15 +32,12 @@ const MonitorStream = () => {
           setShowPopup(true);
         } else {
           setError("Đã xảy ra lỗi khi lấy dữ liệu.");
-        }     
+        }
       }
     };
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 10000);
-
-    return () => clearInterval(intervalId);
   }, []);
 
   const handleClosePopup = () => {
@@ -52,8 +49,8 @@ const MonitorStream = () => {
     const endTime = new Date(stream.EndAt);
     return startTime <= now && now <= endTime;
   }) : [];
-  
-  const upcomingLivestreams =  livestreams ? livestreams.filter((stream) => {
+
+  const upcomingLivestreams = livestreams ? livestreams.filter((stream) => {
     const now = new Date();
     const startTime = new Date(stream.StartAt);
     return startTime > now;
@@ -84,17 +81,17 @@ const MonitorStream = () => {
     currentPlayingRef.current = playerInstance;
   }, []);
 
-  
+
   const renderFormattedDateTime = useCallback((dateTimeString) => {
     const date = new Date(dateTimeString);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   }, []);
 
   const renderLivestreamCards = () => {
-   
+
     return filteredLivestreams.map((stream) => (
       <div
-        key={stream.VideoID}
+        key={stream.ID}
         className="border rounded-lg p-4 mb-4 w-[390px] h-[350px] mr-4"
       >
         <div className="flex justify-between items-center mb-2">
@@ -107,7 +104,7 @@ const MonitorStream = () => {
           Thời gian bắt đầu: {renderFormattedDateTime(stream.StartAt)}
         </p>
         <p className="text-sm text-gray-600">
-         Thời gian kết thúc: {renderFormattedDateTime(stream.EndAt)}
+          Thời gian kết thúc: {renderFormattedDateTime(stream.EndAt)}
         </p>
       </div>
     ));
@@ -124,7 +121,7 @@ const MonitorStream = () => {
         </div>
         <div className="flex justify-between space-x-4 mt-4">
           <div className="relative">
-          <input
+            <input
               type="text"
               placeholder="Tìm kiếm..."
               className="px-4 py-2 w-[400px] border rounded-md w-100"
@@ -161,16 +158,16 @@ const MonitorStream = () => {
         <div className="flex flex-wrap mt-8">{renderLivestreamCards()}</div>
         {upcomingLivestreams.length > 0 && (<p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">
           {upcomingError}
-              </p>
-            )}
+        </p>
+        )}
         {error && <p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">{error}</p>}
 
         {showPopup && (
-                        <Popup
-                          message="Bạn không có quyền thực hiện thao tác này."
-                          onClose={handleClosePopup}
-                        />
-                      )}
+          <Popup
+            message="Bạn không có quyền thực hiện thao tác này."
+            onClose={handleClosePopup}
+          />
+        )}
       </div>
 
     </div>
