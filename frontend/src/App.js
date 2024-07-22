@@ -8,7 +8,7 @@ import CreateStream from "./Pages/Streams/CreateStream";
 import MonitorStream from "./Pages/Streams/MonitorStream";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./Context/UserContext";
-import PrivateRoute from "./PrivateRoute";
+
 
 function App() {
   return (
@@ -16,12 +16,12 @@ function App() {
       <UserProvider>
         <Routes>
           <Route exact path="/" element={<Login />} />
-          <Route exact path="/home" element = {<PrivateRoute> <Home /> </PrivateRoute>}/>
-          <Route exact path="/tbuser" element={<PrivateRoute> <TableUser /> </PrivateRoute>}/>
-          <Route exact path="/tbstream" element={<PrivateRoute> <TableStream /> </PrivateRoute>}/>
-          <Route exact path="/adduser" element={<PrivateRoute> <CreateUser /> </PrivateRoute>}/>
-          <Route exact path="/addstream" element={<PrivateRoute> <CreateStream /> </PrivateRoute>}/>
-          <Route exact path="/monitorstream" element={<PrivateRoute> <MonitorStream /> </PrivateRoute>}/>
+          <Route exact path="/home" element = { <Home />}/>
+          <Route exact path="/tbuser" element={ <TableUser />}/>
+          <Route exact path="/tbstream" element={ <TableStream />}/>
+          <Route exact path="/adduser" element={ <CreateUser />}/>
+          <Route exact path="/addstream" element={ <CreateStream />}/>
+          <Route exact path="/monitorstream" element={ <MonitorStream />}/>
         </Routes>
       </UserProvider>
     </Router>

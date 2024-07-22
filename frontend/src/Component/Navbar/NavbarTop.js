@@ -11,8 +11,10 @@ const NavbarTop = () => {
     navigate("/home");
   };
   const handleLogout = () => {
-    onLogout();
-    navigate('/');
+     localStorage.clear();
+     sessionStorage.clear();
+     onLogout();
+     navigate('/', { replace: true });
   };
 
 
