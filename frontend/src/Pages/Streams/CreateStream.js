@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createStream } from "../../Service/Stream_Service";
 import Popup from "../../Component/Popup/Popup";
 import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
+import { useNavigate } from "react-router-dom";
+
 
 const CreateStream = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const [stream, setStream] = useState({
     id: "",
     location: "",
@@ -14,6 +17,15 @@ const CreateStream = () => {
     end: "",
     play_auth_type: "",
   });
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        navigate("/TbStream");
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,8 +76,21 @@ const CreateStream = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!stream.id.trim()) {
+      setError("VideoID không được để trống.");
+      return;
+    }
+
      if (!stream.location.trim()) {
       setError("Đường dẫn không được để trống.");
+      return;
+    }
+    if (!stream.start.trim()) {
+      setError("Thời gian bắt đầu không được để trống.");
+      return;
+    }
+    if (!stream.end.trim()) {
+      setError("Thời gian kết thúc không được để trống.");
       return;
     }
     
@@ -85,7 +110,7 @@ const CreateStream = () => {
       if (error.response && error.response.status === 403) {
         setError("Bạn không có quyền thực hiện thao tác này.");
       } else {
-        setError("Có lỗi xảy ra. Vui lòng thử lại sau.");
+        setError("Có lỗi xảy ra. Vui lòng kiểm tra lại đường dẫn.");
       }
     }
   };
@@ -142,7 +167,7 @@ const CreateStream = () => {
                       type="text"
                       name="location"
                       value={stream.location}
-                      placeholder="/all/file1.m3u8"
+                      placeholder="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     />

@@ -4,9 +4,11 @@ import NavbarTop from "../../Component/Navbar/NavbarTop";
 import NavbarLeft from "../../Component/Navbar/NavbarLeft";
 import Popup from "../../Component/Popup/Popup";
 import { tableStream } from "../../Service/Stream_Service";
+import { useNavigate } from "react-router-dom";
 
 
 const TableStream = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [sortBy, setSortBy] = useState("start_time");
@@ -40,6 +42,10 @@ const TableStream = () => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
+  };
+
+  const handleAddStream = () => {
+    navigate("/addstream");
   };
 
   const getStatus = (start_time, end_time) => {
@@ -180,6 +186,12 @@ const TableStream = () => {
               <option value="StartAt:asc">High</option>
               <option value="StartAt:desc">Low</option>
             </select>
+
+            <button
+              className="w-[100px] h-[40px] bg-[#335bdf] text-white ml-4 rounded-md hover:bg-[#274481]"
+              onClick={handleAddStream}>
+              Tạo stream
+            </button>
           </div>
         </div>
 
