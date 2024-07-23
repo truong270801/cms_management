@@ -122,6 +122,7 @@ const TableStream = () => {
             getStatus(stream.StartAt, stream.EndAt)
           ) && (
               <DeleteStream
+
                 streamId={stream.ID}
                 onStreamDeleted={handleStreamDeleted}
               />
@@ -144,7 +145,7 @@ const TableStream = () => {
             <input
               type="text"
               placeholder="Tìm kiếm..."
-              className="px-4 py-2 w-[400px] border rounded-md w-100"
+              className="px-4 py-2 w-[400px] border rounded-md w-100 "
               value={searchVideoID}
               onChange={(e) => setSearchVideoID(e.target.value)}
             />
@@ -160,7 +161,7 @@ const TableStream = () => {
           <div>
             <select
               name="status"
-              className="px-4 py-2 mr-4 border rounded-md"
+              className="px-4 py-2 mr-4 border rounded-md cursor-pointer"
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
@@ -169,10 +170,10 @@ const TableStream = () => {
               <option value="active">Đang diễn ra</option>
 
             </select>
-            <label className="text-[16px]">Thời gian bắt đầu:</label>
+            <label className="text-[16px] ">Thời gian bắt đầu:</label>
             <select
               name="sortBy"
-              className="px-4 py-2 border rounded-md"
+              className="px-4 py-2 border rounded-md cursor-pointer"
               value={`${sortBy}:${sortOrder}`}
               onChange={handleSortChange}
             >

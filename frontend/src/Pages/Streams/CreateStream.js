@@ -155,7 +155,7 @@ const CreateStream = () => {
                       name="play_auth_type"
                       value={stream.play_auth_type}
                       onChange={handleChange}
-                      className="h-10 border ml-4 mt-1 rounded px-4  bg-gray-50"
+                      className="h-10 border ml-4 mt-1 rounded px-4 cursor-pointer bg-gray-50"
                     >
                       <option value="">Không xác thực</option>
                       <option value="token">Có xác thực bằng token</option>

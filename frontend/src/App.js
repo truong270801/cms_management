@@ -1,6 +1,5 @@
 import "./App.css";
 import Login from "./Pages/Login";
-import Home from "./Pages/Home";
 import TableUser from "./Pages/Users/TableUser";
 import TableStream from "./Pages/Streams/TableStream";
 import CreateUser from "./Pages/Users/CreateUser";
@@ -16,12 +15,11 @@ function App() {
       <UserProvider>
         <Routes>
           <Route exact path="/" element={<Login />} />
-          <Route exact path="/home" element = { <Home />}/>
-          <Route exact path="/tbuser" element={ <TableUser />}/>
-          <Route exact path="/tbstream" element={ <TableStream />}/>
-          <Route exact path="/adduser" element={ <CreateUser />}/>
-          <Route exact path="/addstream" element={ <CreateStream />}/>
-          <Route exact path="/monitorstream" element={ <MonitorStream />}/>
+          <Route exact path="/tbuser" element={<TableUser />} />
+          <Route exact path="/tbstream" element={<TableStream />} />
+          <Route exact path="/adduser" element={<CreateUser />} />
+          <Route exact path="/addstream" element={<CreateStream />} />
+          <Route exact path="/monitorstream" element={<MonitorStream />} />
         </Routes>
       </UserProvider>
     </Router>

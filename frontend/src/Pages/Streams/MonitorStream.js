@@ -141,7 +141,7 @@ const MonitorStream = () => {
             <label className="text-[16px]">Thời gian bắt đầu:</label>
             <select
               name="sortBy"
-              className="px-4 py-2 border rounded-md"
+              className="px-4 py-2 border rounded-md cursor-pointer"
               value={`${sortBy}:${sortOrder}`}
               onChange={(e) => {
                 const [sortByField, sortOrderField] = e.target.value.split(":");

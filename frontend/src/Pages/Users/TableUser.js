@@ -103,6 +103,7 @@ const TableUser = () => {
 
         {showUpdateModal && selectedUser && (
           <UpdateUser
+          className = "cursor-pointer"
             user={selectedUser}
             onUserUpdate={(updatedUser) => {
               handleUserUpdated(updatedUser);

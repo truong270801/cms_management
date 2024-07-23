@@ -25,7 +25,7 @@ const DeleteStream = ({ streamId, onStreamDeleted }) => {
 
     return (
         <div>
-            <span className="material-icons ml-3 text-red-600" onClick={handleDeleteClick}>delete</span>
+            <span className="material-icons ml-3 text-red-600 cursor-pointer" onClick={handleDeleteClick}>delete</span>
             <DeleteConfirmation
                 isOpen={showConfirmation}
                 onConfirm={handleConfirm}
