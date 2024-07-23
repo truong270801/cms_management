@@ -149,8 +149,8 @@ const MonitorStream = () => {
                 setSortOrder(sortOrderField);
               }}
             >
-              <option value="StartAt:asc">High</option>
-              <option value="StartAt:desc">Low</option>
+              <option value="StartAt:asc">tăng dần</option>
+              <option value="StartAt:desc">giảm dần</option>
             </select>
           </div>
         </div>
@@ -161,7 +161,6 @@ const MonitorStream = () => {
         </p>
         )}
         {error && <p className="text-red-500 text-[24px] font-bold flex flex-col items-center mt-10">{error}</p>}
-
         {showPopup && (
           <Popup
             message="Bạn không có quyền thực hiện thao tác này."

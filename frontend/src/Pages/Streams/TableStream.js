@@ -56,9 +56,8 @@ const TableStream = () => {
     if (startTime <= currentTime && endTime >= currentTime) {
       return "active";
     } else if (startTime > currentTime) {
-      return "upcoming";
+      return "inactive";
     }
-    return "unknown";
   };
 
   const handleStreamDeleted = (streamId) => {
@@ -124,15 +123,12 @@ const TableStream = () => {
           {getStatus(stream.StartAt, stream.EndAt)}
         </td>
         <td className="text-left py-3 px-4 flex flex-row">
-          {["active", "upcoming"].includes(
-            getStatus(stream.StartAt, stream.EndAt)
-          ) && (
+
               <DeleteStream
 
                 streamId={stream.ID}
                 onStreamDeleted={handleStreamDeleted}
               />
-            )}
         </td>
       </tr>
     ));
@@ -171,9 +167,9 @@ const TableStream = () => {
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
-              <option value="All">Tất cả</option>
-              <option value="upcoming">Sắp diễn ra</option>
-              <option value="active">Đang diễn ra</option>
+              <option value="All">All</option>
+              <option value="inactive">inactive</option>
+              <option value="active">active</option>
 
             </select>
             <label className="text-[16px] ">Thời gian bắt đầu:</label>
@@ -183,8 +179,8 @@ const TableStream = () => {
               value={`${sortBy}:${sortOrder}`}
               onChange={handleSortChange}
             >
-              <option value="StartAt:asc">High</option>
-              <option value="StartAt:desc">Low</option>
+              <option value="StartAt:asc">tăng dần</option>
+              <option value="StartAt:desc">giảm dần</option>
             </select>
 
             <button

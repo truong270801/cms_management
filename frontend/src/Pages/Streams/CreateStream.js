@@ -120,7 +120,7 @@ const CreateStream = () => {
       <NavbarTop />
       <NavbarLeft />
       <div className="absolute top-12 left-48 w-[calc(100%-12rem)] h-[calc(100%-3rem)] bg-white p-8">
-        <h1 className="flex justify-center text-24">TẠO MỚI STREAM</h1>
+        <h1 className="flex justify-center text-2xl font-bold">TẠO MỚI STREAM</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">

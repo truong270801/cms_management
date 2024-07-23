@@ -55,6 +55,7 @@ const CreateUser = () => {
                       type="text"
                       name="fullname"
                       value={user.fullname}
+                       placeholder="David"
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     />
@@ -65,6 +66,7 @@ const CreateUser = () => {
                     <input
                       type="text"
                       name="username"
+                       placeholder="David123"
                       value={user.username}
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
@@ -74,8 +76,9 @@ const CreateUser = () => {
                   <div className="md:col-span-5">
                     <label>Mật khẩu</label>
                     <input
-                      type="text"
+                      type="password"
                       name="password"
+                       placeholder="***"
                       value={user.password}
                       onChange={handleChange}
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
