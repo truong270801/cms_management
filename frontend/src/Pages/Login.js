@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'; 
 import UserContext from '../Context/UserContext';
-
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const LOGIN_USER_URL = `${API_BASE_URL}/login`;
@@ -13,6 +12,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+          const Username = localStorage.getItem("username");
+          onLogin(Username);
+          navigate("/TbStream");
+        } else {
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+        }
+    };
+    autoLogin();
+  }, [onLogin, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,6 +39,7 @@ const Login = () => {
       );
       if (response.data.access_token) {
         localStorage.setItem("token", response.data.access_token);
+        localStorage.setItem("username", username);
         setError("Đăng nhập thành công!");
         onLogin(username);
         navigate("/TbStream");
@@ -49,7 +64,7 @@ const Login = () => {
   return (
     <div className="flex items-center flex-col justify-center min-h-screen bg-[#E9ECEF]">
       <div className="bg-[#055EA8] w-[100px] h-[100px]">
-        <img className="p-4" alt="Học trực tuyến - Hệ thống giáo dục HOCMAI" src="https://hocmai.vn/assets/front/images/logo.png"></img>
+        <img className="p-4" alt="Học trực tuyến - Hệ thống giáo dục HOCMAI" src="https://hocmai.vn/assets/front/images/logo.png" />
       </div>
      
       <h1 className="text-[24px] my-4">HOCMAI - RESTREAM</h1>
