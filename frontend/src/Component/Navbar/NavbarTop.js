@@ -8,7 +8,7 @@ const NavbarTop = () => {
   const navigate = useNavigate();
   const { user, onLogout } = useContext(UserContext);
   const handleHome = () => {
-    navigate("/home");
+    navigate("/tbstream");
   };
   const handleLogout = () => {
      localStorage.clear();
@@ -17,13 +17,12 @@ const NavbarTop = () => {
      navigate('/', { replace: true });
   };
 
-
   return (
     <div className="w-full h-[50px] bg-[#3C8DBC] flex items-center justify-between px-4 text-white fixed top-0 z-10">
       <div className="flex items-center space-x-4">
-        <h1 className="font-semibold text-[24px] w-[170px]"
+        <h1 className="font-bold text-[24px] ml-4 cursor-pointer" 
         onClick={handleHome}>AdminLTE</h1>
-        <span className="material-icons hover:text-yellow-300">menu</span>
+        {/* <span className="material-icons hover:text-yellow-300 cursor-pointer">menu</span> */}
       </div>
 
       <div className="relative">
