@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'; 
 import UserContext from '../Context/UserContext';
-import { jwtDecode } from "jwt-decode"; // Updated import
+import { jwtDecode } from "jwt-decode"; 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const LOGIN_USER_URL = `${API_BASE_URL}/login`;
@@ -22,13 +22,15 @@ const Login = () => {
       if (token && refreshToken) {
         try {
           const decodedToken = jwtDecode(token); 
-          const currentTime = Date.now() / 500;
+          const currentTime = Date.now() / 1000;
           if (decodedToken.exp > currentTime) {
             const username = localStorage.getItem("username");
             onLogin(username);
             navigate("/TbStream");
           } else {
-            const response = await axios.post(REFRESH_TOKEN_URL, { refresh_token: refreshToken });
+            const response = await axios.post(REFRESH_TOKEN_URL, { 
+              refresh_token: refreshToken 
+            });
             localStorage.setItem("token", response.data.access_token);
             const username = localStorage.getItem("username");
             onLogin(username);
